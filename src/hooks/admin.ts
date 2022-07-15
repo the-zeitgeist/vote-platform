@@ -120,7 +120,6 @@ export const useCreatePeriodForm = () => {
       }
 
       const response = await PeriodService.createPeriod(values);
-      console.log(response);
 
       if (!response.success) {
         setCreateError(new Error(response.data.errors[0].message));
