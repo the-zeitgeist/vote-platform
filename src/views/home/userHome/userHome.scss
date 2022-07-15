@@ -1,0 +1,39 @@
+div.vote-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  & > div.candidates {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    & > div.card {
+      width: 400px;
+      height: 600px;
+      margin: 1rem;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      img {
+        min-width: 200px;
+        max-width: 400px;
+      }
+
+      &:hover {
+        cursor: pointer;
+        box-shadow: 0 0 2px 1px lightgray;
+        background-color: lightblue;
+
+        h2 {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}

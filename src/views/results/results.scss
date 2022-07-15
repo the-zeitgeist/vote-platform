@@ -1,0 +1,35 @@
+div.results-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 100vh;
+
+  div.result {
+    display: flex;
+    padding: 2rem;
+
+    img {
+      height: 300px;
+    }
+    div.data-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+
+      & > * {
+        margin: 0;
+      }
+
+      h2.percentil {
+        font-size: 48px;
+      }
+
+      h3.votes {
+        font-size: 32px;
+      }
+    }
+  }
+}
