@@ -26,10 +26,10 @@ export const InvalidatePeriod: React.FC = () => {
             <option
               key={period.id}
               value={period.id}
-            >{`${period.initialDate.substring(
+            >{`${period.startDate.substring(
               0,
               10
-            )} - ${period.finalDate.substring(0, 10)}`}</option>
+            )} - ${period.endDate.substring(0, 10)}`}</option>
           ))}
         </select>
         <Error
