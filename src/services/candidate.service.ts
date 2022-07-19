@@ -16,24 +16,6 @@ const candidateService = () => {
 
       return data;
     } catch {
-      // TODO: delete when connected
-
-      if (Math.random() > 0.1) {
-        return [
-          {
-            id: 1,
-            fullName: 'Gustavo Petro',
-            imageUrl:
-              'http://t2.gstatic.com/licensed-image?q=tbn:ANd9GcQiUC9h-pr565uzUBY09vz6Atl7Bu3GSpCkqNapJHIBzSmrWtmsSJQeE1WAZZZ-3HMk',
-          },
-          {
-            id: 2,
-            fullName: 'Rodolfo Hernandez',
-            imageUrl:
-              'https://img.lalr.co/cms/2022/04/18123142/900X1280_HERNANDEZ.jpg?size=sm',
-          },
-        ];
-      }
       notifyError();
 
       return [];
@@ -48,24 +30,6 @@ const candidateService = () => {
 
       return data;
     } catch {
-      // TODO: delete when connected
-      if (Math.random() > 0.1) {
-        return [
-          {
-            fullName: 'Gustavo Petro',
-            imageUrl:
-              'http://t2.gstatic.com/licensed-image?q=tbn:ANd9GcQiUC9h-pr565uzUBY09vz6Atl7Bu3GSpCkqNapJHIBzSmrWtmsSJQeE1WAZZZ-3HMk',
-            total: 1,
-          },
-          {
-            fullName: 'Rodolfo Hernandez',
-            imageUrl:
-              'https://img.lalr.co/cms/2022/04/18123142/900X1280_HERNANDEZ.jpg?size=sm',
-            total: 1,
-          },
-        ];
-      }
-
       notifyError();
 
       return [];
@@ -86,12 +50,6 @@ const candidateService = () => {
 
       return { success: true };
     } catch (e: any) {
-      // TODO: delete when connected
-      if (Math.random() > 0.3) {
-        notifySuccess('Created');
-        return { success: true };
-      }
-
       notifyError();
 
       return {
@@ -122,12 +80,6 @@ const candidateService = () => {
 
       return { success: true };
     } catch (e: any) {
-      // TODO: delete when connected
-      if (Math.random() > 0.1) {
-        notifySuccess('Voted');
-        return { success: true };
-      }
-
       notifyError();
 
       return {
@@ -150,12 +102,6 @@ const candidateService = () => {
 
       return { success: true };
     } catch (e: any) {
-      // TODO: delete when connected
-      if (Math.random() > 0.8) {
-        notifySuccess('Invalidated');
-        return { success: true };
-      }
-
       notifyError();
 
       return {

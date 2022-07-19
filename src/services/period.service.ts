@@ -9,18 +9,6 @@ const periodService = () => {
 
       return data;
     } catch (e: any) {
-      // TODO: delete when connected
-      if (Math.random() > 0.1) {
-        return [
-          {
-            id: 1,
-            initialDate: '2022-06-29T00:00:00.000',
-            finalDate: '2022-07-29T23:59:59.999',
-            name: 'ELECTION PERIOD 2022-2',
-          },
-        ];
-      }
-
       notifyError();
 
       return [];
@@ -34,19 +22,18 @@ const periodService = () => {
       await axios({
         method: 'post',
         url: '/admin/create/election_period',
-        data: { ...data, status: 1 },
+        data: {
+          ...data,
+          start_date: data.initialDate,
+          end_date: data.finalDate,
+          status: 1,
+        },
       });
 
       notifySuccess('Created');
 
       return { success: true };
     } catch (e: any) {
-      // TODO: delete when connected
-      if (Math.random() > 0.3) {
-        notifySuccess('Created');
-        return { success: true };
-      }
-
       notifyError();
 
       return {
@@ -72,12 +59,6 @@ const periodService = () => {
 
       return { success: true };
     } catch (e: any) {
-      // TODO: delete when connected
-      if (Math.random() > 0.8) {
-        notifySuccess('Invalidated');
-        return { success: true };
-      }
-
       notifyError();
 
       return {

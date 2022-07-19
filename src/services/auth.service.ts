@@ -61,26 +61,16 @@ const authService: () => AuthServiceInterface = () => {
   ) => {
     try {
       const requestEndpoint = loginForm.isAdmin ? 'admin' : 'user';
-      const { data } = await axios.get(`/${requestEndpoint}/login`);
+      const { data } = await axios.post(`/${requestEndpoint}/login`, {
+        user: loginForm.username,
+        password: loginForm.password,
+      });
 
       return {
         success: true,
         data,
       };
     } catch (e: any) {
-      // TODO: delete when connected
-      if (Math.random() > 0.1) {
-        return {
-          success: true,
-          data: {
-            user: 'admin',
-            sessionToken: loginForm.isAdmin
-              ? 'eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJhZG1pbkxvZ0luU2Vzc2lvblRva2VuIiwic3ViIjoiYWRtaW4iLCJhdXRob3JpdGllcyI6WyJBRE1JTiJdLCJpYXQiOjE2NTc1ODMyNTAsImV4cCI6MTY1ODI5NDA4M30.4lWvJhVjAwKAYXnrRhFApOSlsn3fUAWdnxuSxOzNZETIc_-QU2aqISiVfu5mZ7jSVui7LYCR1SCuJ9luhVTCwA'
-              : 'eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJhZG1pbkxvZ0luU2Vzc2lvblRva2VuIiwic3ViIjoidXNlciIsImF1dGhvcml0aWVzIjpbIkFETUlOIl0sImlhdCI6MTY1NzU4MzI1MCwiZXhwIjoxNjU4MDI3NTQyfQ.DuIEGaF2GsRw7ZgOC3IiXv1bLUJWjXw7iYGdQOkSfR4L-jKc3_NI--16kkTE7-xwr1lcZSZxi5OO3H3OAoPkLg',
-          },
-        };
-      }
-
       return {
         success: false,
         data: e,

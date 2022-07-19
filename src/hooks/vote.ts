@@ -35,6 +35,10 @@ export const useVote = () => {
   );
 
   useEffect(() => {
+    if (!user) {
+      return;
+    }
+
     const fetchData = async () => {
       const responseData: CandidateData[] =
         await CandidateService.getCandidates();
@@ -42,7 +46,7 @@ export const useVote = () => {
     };
 
     fetchData();
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     const subscription = AuthService.authState$().subscribe(
