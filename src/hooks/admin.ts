@@ -111,15 +111,25 @@ export const useCreatePeriodForm = () => {
       finalDate: yup.string(),
     }),
     onSubmit: async (values, { setFieldError }) => {
-      if (
-        new Date(values.finalDate).getTime() <
-        new Date(values.initialDate).getTime()
-      ) {
+      const initialDate = new Date(values.initialDate);
+      const finalDate = new Date(values.finalDate);
+      finalDate.setUTCHours(23);
+      finalDate.setUTCMinutes(59);
+      finalDate.setUTCSeconds(59);
+      finalDate.setUTCMilliseconds(999);
+
+      if (finalDate.getTime() < initialDate.getTime()) {
         setFieldError('finalDate', 'Final date is before initial date');
         return;
       }
 
-      const response = await PeriodService.createPeriod(values);
+      const data = {
+        ...values,
+        initialDate: initialDate.toISOString().split('').slice(0, -1).join(''),
+        finalDate: finalDate.toISOString().split('').slice(0, -1).join(''),
+      };
+
+      const response = await PeriodService.createPeriod(data);
 
       if (!response.success) {
         setCreateError(new Error(response.data.errors[0].message));

@@ -28,8 +28,8 @@ export const InvalidatePeriod: React.FC = () => {
               value={period.id}
             >{`${period.initialDate.substring(
               0,
-              11
-            )} - ${period.finalDate.substring(0, 11)}`}</option>
+              10
+            )} - ${period.finalDate.substring(0, 10)}`}</option>
           ))}
         </select>
         <Error

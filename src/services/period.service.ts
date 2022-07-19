@@ -1,46 +1,54 @@
-// import axios from "axios";
-
+import { axiosInstance as axios } from '../axios';
+import { notifySuccess, notifyError } from './notify.service';
 import { Period, PeriodData, Response } from '../models';
 
 const periodService = () => {
   const getPeriods: () => Promise<PeriodData[]> = async () => {
-    // const data = await axios.get('/candidates');
+    try {
+      const { data } = await axios.get('/general/election_periods');
 
-    const data = [
-      {
-        id: 1,
-        initialDate: '2022-06-29 00:00:00.000',
-        finalDate: '2022-07-29 23:59:59.999',
-        name: 'ELECTION PERIOD 2022-2',
-      },
-    ];
+      return data;
+    } catch (e: any) {
+      // TODO: delete when connected
+      if (Math.random() > 0.1) {
+        return [
+          {
+            id: 1,
+            initialDate: '2022-06-29T00:00:00.000',
+            finalDate: '2022-07-29T23:59:59.999',
+            name: 'ELECTION PERIOD 2022-2',
+          },
+        ];
+      }
 
-    return data;
+      notifyError();
+
+      return [];
+    }
   };
 
   const createPeriod: (data: Period) => Promise<Response<any>> = async (
     data
   ) => {
     try {
-      // const data = axios.post('/period', { ...data, status: 1 });
-      if (Math.random() > 0.8) {
-        const error = {
-          errors: [
-            {
-              reason: 'EVT0011 - An error occurred saving the election period.',
-              domain:
-                'http://localhost:8093/api/v1/electoral_votes/admin/create/candidate',
-              code: 'EVT0011',
-              message: 'An error occurred saving the candidate.',
-            },
-          ],
-        };
+      await axios({
+        method: 'post',
+        url: '/admin/create/election_period',
+        data: { ...data, status: 1 },
+      });
 
-        throw error;
-      }
+      notifySuccess('Created');
 
       return { success: true };
     } catch (e: any) {
+      // TODO: delete when connected
+      if (Math.random() > 0.3) {
+        notifySuccess('Created');
+        return { success: true };
+      }
+
+      notifyError();
+
       return {
         success: false,
         data: e,
@@ -52,26 +60,26 @@ const periodService = () => {
     id
   ) => {
     try {
-      // const data = axios.post('/invalidate', { id });
-      if (Math.random() > 0.8) {
-        const error = {
-          errors: [
-            {
-              reason:
-                'EVT0012 - An error occurred disabling the election period.',
-              domain:
-                'http://localhost:8093/api/v1/electoral_votes/admin/disable/candidate',
-              code: 'EVT0010',
-              message: 'An error occurred disabling the election period.',
-            },
-          ],
-        };
+      await axios({
+        method: 'put',
+        url: `/admin/disable/election_period`,
+        data: {
+          id,
+        },
+      });
 
-        throw error;
-      }
+      notifySuccess('Invalidated');
 
       return { success: true };
     } catch (e: any) {
+      // TODO: delete when connected
+      if (Math.random() > 0.8) {
+        notifySuccess('Invalidated');
+        return { success: true };
+      }
+
+      notifyError();
+
       return {
         success: false,
         data: e,

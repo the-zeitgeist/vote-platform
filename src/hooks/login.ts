@@ -36,8 +36,8 @@ export const useLoginHook = () => {
       });
 
       if (!response.success) {
-        setLoginError(new Error(response.data.errors[0]?.message));
-        return;
+        setLoginError(new Error(response.data.errors[0].message));
+        return response;
       }
 
       AuthService.setToken(response.data.user, response.data.sessionToken);

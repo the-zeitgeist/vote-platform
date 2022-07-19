@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthService, AuthState } from '../services/auth.service';
+import { setToken } from '../axios';
 
 export const useGuard = () => {
   const navigate = useNavigate();
@@ -53,4 +54,14 @@ export const useAdminGuard = () => {
       subscription.unsubscribe();
     };
   }, [navigate]);
+};
+
+export const useAxiosToken = () => {
+  useEffect(() => {
+    const subscription = AuthService.authState$().subscribe((as: AuthState) => {
+      setToken(as.token);
+    });
+
+    return () => subscription.unsubscribe();
+  });
 };

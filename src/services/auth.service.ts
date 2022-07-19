@@ -1,7 +1,7 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Response, User } from '../models';
+import { axiosInstance as axios } from '../axios';
 import decode from 'jwt-decode';
-// import axios from 'axios';
 
 export type AuthState = {
   isLoggedIn: boolean;
@@ -59,38 +59,28 @@ const authService: () => AuthServiceInterface = () => {
   const login: (loginForm: User) => Promise<LoginResponse> = async (
     loginForm
   ) => {
-    // mock
     try {
-      //const data = await axios.get('');
-      if (Math.random() > 0.8) {
-        const errorMock = {
-          errors: [
-            {
-              reason:
-                "EVT0004 - This user doesn't exist in the system, please try again.",
-              domain:
-                'http://localhost:8093/api/v1/electoral_votes/admin/login',
-              code: 'EVT0004',
-              message:
-                "This user doesn't exist in the system, please try again.",
-            },
-          ],
-        };
-        throw errorMock;
-      }
-
-      const successMock = {
-        user: 'admin',
-        sessionToken: loginForm.isAdmin
-          ? 'eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJhZG1pbkxvZ0luU2Vzc2lvblRva2VuIiwic3ViIjoiYWRtaW4iLCJhdXRob3JpdGllcyI6WyJBRE1JTiJdLCJpYXQiOjE2NTc1ODMyNTAsImV4cCI6MTY1ODAyNzU0Mn0.F74hPyq6s_ak6RpqNz8zFBzoRKrs7OVL3M79i3O54xRzt3Rl8QTo6snfBXMz0-fouCQHfHK5emaR38Q-XS9epQ'
-          : 'eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJhZG1pbkxvZ0luU2Vzc2lvblRva2VuIiwic3ViIjoidXNlciIsImF1dGhvcml0aWVzIjpbIkFETUlOIl0sImlhdCI6MTY1NzU4MzI1MCwiZXhwIjoxNjU4MDI3NTQyfQ.DuIEGaF2GsRw7ZgOC3IiXv1bLUJWjXw7iYGdQOkSfR4L-jKc3_NI--16kkTE7-xwr1lcZSZxi5OO3H3OAoPkLg',
-      };
+      const requestEndpoint = loginForm.isAdmin ? 'admin' : 'user';
+      const { data } = await axios.get(`/${requestEndpoint}/login`);
 
       return {
         success: true,
-        data: successMock,
+        data,
       };
     } catch (e: any) {
+      // TODO: delete when connected
+      if (Math.random() > 0.1) {
+        return {
+          success: true,
+          data: {
+            user: 'admin',
+            sessionToken: loginForm.isAdmin
+              ? 'eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJhZG1pbkxvZ0luU2Vzc2lvblRva2VuIiwic3ViIjoiYWRtaW4iLCJhdXRob3JpdGllcyI6WyJBRE1JTiJdLCJpYXQiOjE2NTc1ODMyNTAsImV4cCI6MTY1ODI5NDA4M30.4lWvJhVjAwKAYXnrRhFApOSlsn3fUAWdnxuSxOzNZETIc_-QU2aqISiVfu5mZ7jSVui7LYCR1SCuJ9luhVTCwA'
+              : 'eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJhZG1pbkxvZ0luU2Vzc2lvblRva2VuIiwic3ViIjoidXNlciIsImF1dGhvcml0aWVzIjpbIkFETUlOIl0sImlhdCI6MTY1NzU4MzI1MCwiZXhwIjoxNjU4MDI3NTQyfQ.DuIEGaF2GsRw7ZgOC3IiXv1bLUJWjXw7iYGdQOkSfR4L-jKc3_NI--16kkTE7-xwr1lcZSZxi5OO3H3OAoPkLg',
+          },
+        };
+      }
+
       return {
         success: false,
         data: e,
