@@ -49,10 +49,7 @@ const periodService = () => {
     try {
       await axios({
         method: 'put',
-        url: `/admin/disable/election_period`,
-        data: {
-          id,
-        },
+        url: `/admin/disable/election_period/${id}`,
       });
 
       notifySuccess('Invalidated');
